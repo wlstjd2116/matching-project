@@ -13,4 +13,8 @@
         DELETE FROM GOLD_MATCH
         WHERE U_NUM = #{userNum}
     </delete>
+
+    <select id="matchingOther" resultType="int">
+        SELECT COUNT(*) FROM GOLD_MATCH;
+    </select>
 </mapper>

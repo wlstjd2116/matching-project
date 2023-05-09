@@ -95,4 +95,10 @@ public class MatchingServiceImpl implements MatchingService {
     public void matchingEnd(int userNum) {
         matchMapper.matchingEnd(userNum);
     }
+
+    @Override
+    public int matchingOther() {
+        int result = matchMapper.matchingOther();
+        return result;
+    }
 }

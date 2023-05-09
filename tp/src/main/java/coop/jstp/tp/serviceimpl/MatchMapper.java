@@ -11,4 +11,7 @@ public interface MatchMapper {
 
     // 매칭 중단
     public void matchingEnd(int userNum);
+
+    // 매칭 중인 사람 있는지 check
+    public int matchingOther();
 }

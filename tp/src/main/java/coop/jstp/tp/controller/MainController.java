@@ -32,11 +32,17 @@ public class MainController {
 
     @RequestMapping("/match-on")
     public void matchingStart(@RequestParam int userNum){
+        // 매칭을 시작.
         try {
             matchingService.matchingStart(userNum);
             System.out.println(userNum + ", 매칭 시작");
         }catch (Exception e){
             System.out.println("이미 매칭 중입니다.");
+        }
+
+        if(matchingService.matchingOther() >= 2){
+            System.out.println("매칭 중인 다른 사람이 있습니다.");
+
         }
     }
 

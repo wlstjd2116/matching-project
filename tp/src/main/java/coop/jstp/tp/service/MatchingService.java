@@ -12,4 +12,8 @@ public interface MatchingService {
 
     // 매칭 off
     public void matchingEnd(int userNum);
+
+    // 매칭 중인 사람이 있는지 확인
+    public int matchingOther();
+
 }
