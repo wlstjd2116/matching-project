@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="coop.jstp.tp.serviceimpl.MatchMapper">
+
+    <insert id="matchingStart">
+        INSERT INTO GOLD_MATCH (U_NUM) VALUES (#{userNum});
+    </insert>
+
+    <delete id="matchingEnd">
+        DELETE FROM GOLD_MATCH
+        WHERE U_NUM = #{userNum}
+    </delete>
+</mapper>
