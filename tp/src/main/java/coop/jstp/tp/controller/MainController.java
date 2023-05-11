@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
-@Controller
+@RestController
 public class MainController {
 
     @Autowired
@@ -31,7 +31,6 @@ public class MainController {
         return "/index";
     }
 
-    @ResponseBody
     @RequestMapping("/memberInput")
     public void memberInput(@RequestParam String id, @RequestParam String pw, @RequestParam String userName){
         TestDTO dto = new TestDTO();
@@ -58,7 +57,6 @@ public class MainController {
 //        return result;
 //    }
 
-    @ResponseBody
     @RequestMapping("/match-on")
     public void matchingStart(@RequestParam int userNum){
         // 매칭을 시작.
