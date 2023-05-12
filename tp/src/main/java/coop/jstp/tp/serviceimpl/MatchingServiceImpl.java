@@ -11,6 +11,7 @@ import coop.jstp.tp.vo.TestDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,16 +27,16 @@ import java.util.List;
 @Service("service")
 public class MatchingServiceImpl implements MatchingService {
 
+    @Value("${riot.apikey}")
+    private String apiKey;
+
     @Autowired
     private MatchDAO matchDAO;
 
     @Override
-    public void memberInput(TestDTO dto) {
-        matchDAO.memberInput(dto);
-    }
-
-    @Override
     public ResponseEntity getUserInfo(String userName) throws JsonProcessingException {
+
+        log.info(apiKey);
 
         // 통신에 필요한 라이브러리, 타입 등 선언
         RestTemplate restTemplate = new RestTemplate();
@@ -44,8 +45,8 @@ public class MatchingServiceImpl implements MatchingService {
         HttpEntity<?> requestMessage = new HttpEntity<>(body, headers);
 
         // URI builder
-        String api_key = "RGAPI-e0d8fbf6-ef95-4ba5-ab3f-80a8ae6ebaaf"; // 외부 노출 금지
-        String url ="https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + userName + "?api_key=" + api_key;
+//        String api_key = "RGAPI-e0d8fbf6-ef95-4ba5-ab3f-80a8ae6ebaaf"; // 외부 노출 금지
+        String url ="https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + userName + "?api_key=" + apiKey;
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url).build();
 
         // uri Request -> responseEntity

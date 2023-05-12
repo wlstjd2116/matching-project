@@ -12,8 +12,6 @@ import java.util.List;
 
 public interface MatchingService {
 
-    public void memberInput(TestDTO dto);
-
     public ResponseEntity getUserInfo(String userName) throws JsonProcessingException;
 
     // 매칭 ON
