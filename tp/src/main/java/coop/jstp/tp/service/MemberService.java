@@ -11,6 +11,6 @@ public interface MemberService {
     // ID 중복체크
     public ResponseEntity<?> idDupChk(TestDTO dto);
 
-    public ResponseEntity<?> login(TestDTO dto);
+    public TestDTO login(TestDTO dto);
 
 }

@@ -25,7 +25,6 @@ public class MemberServiceImpl implements MemberService {
     public void memberInput(TestDTO dto) {
         memberDAO.memberInput(dto);
     }
-
     @Override
     public ResponseEntity<?> idDupChk(TestDTO dto) {
         int chk = memberDAO.idDupChk(dto);
@@ -36,14 +35,10 @@ public class MemberServiceImpl implements MemberService {
         return new ResponseEntity<>(chk, header, HttpStatus.OK);
     }
 
+    // 로그인 시도
     @Override
-    public ResponseEntity<?> login(TestDTO dto) {
-        // try 묶기
+    public TestDTO login(TestDTO dto) {
         TestDTO result = memberDAO.login(dto);
-
-        HttpHeaders header = new HttpHeaders();
-        header.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-
-        return new ResponseEntity<>(result, header, HttpStatus.OK);
+        return result;
     }
 }

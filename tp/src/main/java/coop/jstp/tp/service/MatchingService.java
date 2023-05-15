@@ -25,4 +25,6 @@ public interface MatchingService {
 
     public List<MatchingDTO> matchedUser();
 
+    public TestDTO getSummonerName(int uNum);
+
 }

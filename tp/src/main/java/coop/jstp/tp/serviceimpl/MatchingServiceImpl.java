@@ -76,4 +76,9 @@ public class MatchingServiceImpl implements MatchingService {
     public List<MatchingDTO> matchedUser() {
         return matchDAO.matchedUser();
     }
+
+    @Override
+    public TestDTO getSummonerName(int uNum) {
+        return matchDAO.getSummonerName(uNum);
+    }
 }

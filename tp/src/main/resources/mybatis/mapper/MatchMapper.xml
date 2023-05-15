@@ -29,6 +29,11 @@
         FROM GOLD_MATCH
         ORDER BY M_NUM
         LIMIT 2
+    </select>
 
+    <select id="getSummonerName" parameterType="int" resultType="coop.jstp.tp.vo.TestDTO">
+        SELECT *
+        FROM USERINFO
+        WHERE U_NUM = (SELECT U_NUM FROM GOLD_MATCH WHERE U_NUM = #{uNum});
     </select>
 </mapper>

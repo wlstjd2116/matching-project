@@ -6,11 +6,15 @@ import coop.jstp.tp.vo.TestDTO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 
 
 @Slf4j
@@ -40,6 +44,7 @@ public class MemberController {
     public ResponseEntity<?> idDupChk(@RequestParam String id){
 
         TestDTO dto = new TestDTO();
+
         dto.setId(id);
 
         ResponseEntity<?> result = memberService.idDupChk(dto);
@@ -51,12 +56,15 @@ public class MemberController {
     @RequestMapping(value = "/api/login", method = RequestMethod.GET)
     public ResponseEntity<?> login(@RequestParam String id, @RequestParam String pw){
         TestDTO dto = new TestDTO();
+
         dto.setId(id);
         dto.setPw(pw);
 
-        ResponseEntity<?> result = memberService.login(dto);
+        TestDTO returnVal = memberService.login(dto);
 
-        return result;
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        return new ResponseEntity<>(returnVal, header, HttpStatus.OK);
     }
-
 }
