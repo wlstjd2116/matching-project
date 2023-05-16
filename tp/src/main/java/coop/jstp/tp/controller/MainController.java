@@ -11,6 +11,7 @@ import coop.jstp.tp.vo.TestDTO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -51,15 +53,14 @@ public class MainController {
 
     // 매칭 시작하는 API
     @RequestMapping("/api/match-on")
-    public ResponseEntity<?> matchingStart(@RequestParam int userNum){
+    public ResponseEntity<?> matchingStart(@RequestParam int userNum) {
         // 매칭 시작.
         try {
             matchingService.matchingStart(userNum);
             log.info(userNum+", 매칭 시작");
-        }catch (Exception e){
-            log.info("이미 매칭 중이거나, 등록되지 않은 사용자입니다."+e);
+        }catch (DataIntegrityViolationException exception){
+            log.info(userNum+", 이미 매칭 중인 유저입니다."+ exception);
         }
-
         List<String> summonerNames = new ArrayList<>();
 
         if(matchingService.matchingOther() >= 2){
@@ -68,15 +69,10 @@ public class MainController {
 
             // 매칭된 두 사람을 매칭 DB에서 제외
             for (MatchingDTO matchingDTO : summonerList) {
-                System.out.println("############################## 매칭 시작");
-
-                System.out.println("############################## 매칭 시작2"+matchingDTO.toString());
                 TestDTO summonerName = matchingService.getSummonerName(matchingDTO.getU_NUM());
-                System.out.println("############################## 매칭 시작3"+summonerName);
                 // front로 반환 될 List
                 summonerNames.add(summonerName.getSummoner_Name());
                 matchingService.matchingEnd(matchingDTO.getU_NUM());
-                System.out.println("############################## 매칭 for end");
             }
 
             log.info(summonerNames.toString());
@@ -91,13 +87,8 @@ public class MainController {
 
     }
 
-    @RequestMapping("/api/match-off")
+    @RequestMapping("/api/ㅣmatch-off")
     public void matchingEnd(@RequestParam int userNum){
-        try{
-            matchingService.matchingEnd(userNum);
-            log.info(userNum+", 매칭 중단");
-        }catch(Exception e){
-            log.info("비정상적인 실행입니다."+e);
-        }
+        matchingService.matchingEnd(userNum);
     }
 }

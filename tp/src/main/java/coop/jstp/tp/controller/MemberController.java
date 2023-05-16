@@ -1,7 +1,7 @@
 package coop.jstp.tp.controller;
 
-import coop.jstp.tp.service.MatchingService;
 import coop.jstp.tp.service.MemberService;
+import coop.jstp.tp.vo.LoginDTO;
 import coop.jstp.tp.vo.TestDTO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
 
@@ -26,17 +24,13 @@ public class MemberController {
     private MemberService memberService;
 
     @ApiOperation(value = "회원가입을 정보를 받아 DB로 전송하는 API")
-    @RequestMapping(value = "/api/memberInput", method = RequestMethod.POST)
-    public void memberInput(@RequestParam String id, @RequestParam String pw, @RequestParam String userName){
-        TestDTO dto = new TestDTO();
+    @PostMapping("/api/memberInput")
+    public void memberInput(@RequestBody LoginDTO dto){
 
-        dto.setId(id);
-        dto.setPw(pw);
-        dto.setSummoner_Name(userName);
+        // DTO set Parameters
+        LoginDTO lDto = memberService.setInputParam(dto);
 
-        log.info(dto.getSummoner_Name());
-
-        memberService.memberInput(dto);
+        memberService.memberInput(lDto);
     }
 
     @ApiOperation(value = "id 값이 중복되어 있는지 체크하는 API, 1 이상이 리턴된다면 아이디가 있다는 것을 의미함.")

@@ -1,5 +1,6 @@
 package coop.jstp.tp.dao;
 
+import coop.jstp.tp.vo.LoginDTO;
 import coop.jstp.tp.vo.TestDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,8 @@ public class MemberDAOImpl implements MemberDAO{
     private SqlSession sqlSession;
 
     @Override
-    public void memberInput(TestDTO testDTO) {
-        sqlSession.insert("matchMapper.memberInput", testDTO);
+    public void memberInput(LoginDTO dto) {
+        sqlSession.insert("matchMapper.memberInput", dto);
     }
 
     @Override
