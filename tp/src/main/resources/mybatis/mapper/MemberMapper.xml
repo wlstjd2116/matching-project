@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--<mapper namespace="coop.jstp.tp.serviceimpl.MatchMapper">-->
+<mapper namespace="memberMapper">
+    <select id="idDupChk" resultType="int" parameterType="coop.jstp.tp.vo.TestDTO">
+        SELECT COUNT(*)
+        FROM USERINFO
+        WHERE id = #{id}
+    </select>
+
+    <select id="login" parameterType="coop.jstp.tp.vo.TestDTO" resultType="coop.jstp.tp.vo.TestDTO">
+        SELECT *
+        FROM USERINFO
+        WHERE id = #{id} and pw = #{pw}
+    </select>
+
+</mapper>
