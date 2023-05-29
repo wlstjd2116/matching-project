@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import coop.jstp.tp.dao.MatchDAO;
 import coop.jstp.tp.service.MatchingService;
+import coop.jstp.tp.vo.MatchStartDTO;
 import coop.jstp.tp.vo.MatchingDTO;
 import coop.jstp.tp.vo.SummonerDTO;
 import coop.jstp.tp.vo.TestDTO;
@@ -21,7 +22,11 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service("service")
@@ -57,8 +62,8 @@ public class MatchingServiceImpl implements MatchingService {
 
     // 매칭 시작
     @Override
-    public void matchingStart(int userNum) {
-        matchDAO.matchingStart(userNum);
+    public void matchingStart(MatchStartDTO dto) {
+        matchDAO.matchingStart(dto);
     }
 
     // 매칭 중단
@@ -80,5 +85,30 @@ public class MatchingServiceImpl implements MatchingService {
     @Override
     public TestDTO getSummonerName(int uNum) {
         return matchDAO.getSummonerName(uNum);
+    }
+
+    @Override
+    public int tierList(String tier) {
+        //HashMap<String, Integer> tierHash = new HashMap<>();
+        String[] tierArr = new String[] {"IRONI", "IRONII", "IRONIII", "IRONIV",
+                "BRONZEI", "BRONZEII", "BRONZEIII", "BRONZEIV",
+                "SILVERI", "SILVERII", "SILVERIII", "SILVERIV",
+                "GOLDI", "GOLDII", "GOLDIII", "GOLDIV",
+                "PLATINUMI", "PLATINUMII", "PLATINUMIII", "PLATINUMIV",
+                "DIAMONDI", "DIAMONDII", "DIAMONDIII", "DIAMONDIV"};
+
+        for(int i=0; i<tierArr.length; i++){
+            if(tierArr[i].equals(tier)){
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    @Override
+    public List<MatchingDTO> getMatchedUserInfo() {
+        System.out.println("#@#@$%#@%#@%@# "+matchDAO.getMatchingUsers().get(0).getClass().getName());
+        return matchDAO.getMatchingUsers();
     }
 }

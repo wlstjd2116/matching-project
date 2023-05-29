@@ -12,21 +12,21 @@
     </insert>
 
     <insert id="matchingStart">
-        INSERT INTO GOLD_MATCH (U_NUM) VALUES (#{userNum});
+        INSERT INTO TB_MATCH (U_NUM, MATCHING_TIER) VALUES (#{userNum}, #{matchingTier});
     </insert>
 
     <delete id="matchingEnd">
-        DELETE FROM GOLD_MATCH
+        DELETE FROM TB_MATCH
         WHERE U_NUM = #{userNum}
     </delete>
 
     <select id="matchingOther" resultType="int">
-        SELECT COUNT(*) FROM GOLD_MATCH
+        SELECT COUNT(*) FROM TB_MATCH
     </select>
 
-    <select id="getMatchedUser" resultType="coop.jstp.tp.vo.MatchingDTO">
+    <select id="getMatchedUser" resultType="hashMap">
         SELECT *
-        FROM GOLD_MATCH
+        FROM TB_MATCH
         ORDER BY M_NUM
         LIMIT 2
     </select>
@@ -34,6 +34,12 @@
     <select id="getSummonerName" parameterType="int" resultType="coop.jstp.tp.vo.TestDTO">
         SELECT *
         FROM USERINFO
-        WHERE U_NUM = (SELECT U_NUM FROM GOLD_MATCH WHERE U_NUM = #{uNum});
+        WHERE U_NUM = (SELECT U_NUM FROM TB_MATCH WHERE U_NUM = #{uNum});
+    </select>
+
+    <select id="getMatchingUsers" resultType="hashMap">
+        SELECT *
+        FROM TB_MATCH
+        ORDER BY M_NUM ASC;
     </select>
 </mapper>

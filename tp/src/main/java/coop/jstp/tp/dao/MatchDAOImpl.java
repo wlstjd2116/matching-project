@@ -1,5 +1,6 @@
 package coop.jstp.tp.dao;
 
+import coop.jstp.tp.vo.MatchStartDTO;
 import coop.jstp.tp.vo.MatchingDTO;
 import coop.jstp.tp.vo.SummonerDTO;
 import coop.jstp.tp.vo.TestDTO;
@@ -16,8 +17,8 @@ public class MatchDAOImpl implements MatchDAO{
     @Autowired
     private SqlSession sqlSession;
     @Override
-    public void matchingStart(int userNum) {
-        sqlSession.insert("matchMapper.matchingStart", userNum);
+    public void matchingStart(MatchStartDTO dto) {
+        sqlSession.insert("matchMapper.matchingStart", dto);
     }
 
     @Override
@@ -38,5 +39,10 @@ public class MatchDAOImpl implements MatchDAO{
     @Override
     public TestDTO getSummonerName(int uNum) {
         return sqlSession.selectOne("matchMapper.getSummonerName", uNum);
+    }
+
+    @Override
+    public List<MatchingDTO> getMatchingUsers(){
+        return sqlSession.selectList("matchMapper.getMatchingUsers");
     }
 }
