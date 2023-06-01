@@ -7,7 +7,9 @@ import coop.jstp.tp.vo.TestDTO;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface MatchDAO {
 
@@ -26,6 +28,6 @@ public interface MatchDAO {
 
     public TestDTO getSummonerName(int uNum);
 
-    public List<MatchingDTO> getMatchingUsers();
+    public List<HashMap<?,?>> getMatchingUsers();
 
 }

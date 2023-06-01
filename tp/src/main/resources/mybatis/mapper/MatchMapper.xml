@@ -24,7 +24,7 @@
         SELECT COUNT(*) FROM TB_MATCH
     </select>
 
-    <select id="getMatchedUser" resultType="hashMap">
+    <select id="getMatchedUser" resultType="coop.jstp.tp.vo.MatchingDTO">
         SELECT *
         FROM TB_MATCH
         ORDER BY M_NUM
@@ -34,7 +34,7 @@
     <select id="getSummonerName" parameterType="int" resultType="coop.jstp.tp.vo.TestDTO">
         SELECT *
         FROM USERINFO
-        WHERE U_NUM = (SELECT U_NUM FROM TB_MATCH WHERE U_NUM = #{uNum});
+        WHERE U_NUM = #{uNum}
     </select>
 
     <select id="getMatchingUsers" resultType="hashMap">

@@ -1,16 +1,12 @@
 package coop.jstp.tp.serviceimpl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import coop.jstp.tp.dao.MatchDAO;
 import coop.jstp.tp.service.MatchingService;
 import coop.jstp.tp.vo.MatchStartDTO;
 import coop.jstp.tp.vo.MatchingDTO;
-import coop.jstp.tp.vo.SummonerDTO;
 import coop.jstp.tp.vo.TestDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -21,12 +17,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service("service")
@@ -107,8 +99,7 @@ public class MatchingServiceImpl implements MatchingService {
     }
 
     @Override
-    public List<MatchingDTO> getMatchedUserInfo() {
-        System.out.println("#@#@$%#@%#@%@# "+matchDAO.getMatchingUsers().get(0).getClass().getName());
+    public List<HashMap<?, ?>> getMatchedUserInfo() {
         return matchDAO.getMatchingUsers();
     }
 }

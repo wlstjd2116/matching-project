@@ -1,16 +1,12 @@
 package coop.jstp.tp.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import coop.jstp.tp.dao.MatchDAO;
 import coop.jstp.tp.vo.MatchStartDTO;
 import coop.jstp.tp.vo.MatchingDTO;
-import coop.jstp.tp.vo.SummonerDTO;
 import coop.jstp.tp.vo.TestDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public interface MatchingService {
@@ -34,5 +30,5 @@ public interface MatchingService {
     public int tierList(String tier);
 
     // 매칭티어 정보 가져오기
-    public List<MatchingDTO> getMatchedUserInfo();
+    public List<HashMap<?, ?>> getMatchedUserInfo();
 }

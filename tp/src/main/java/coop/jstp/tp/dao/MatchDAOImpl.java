@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -42,7 +43,7 @@ public class MatchDAOImpl implements MatchDAO{
     }
 
     @Override
-    public List<MatchingDTO> getMatchingUsers(){
+    public List<HashMap<?, ?>> getMatchingUsers(){
         return sqlSession.selectList("matchMapper.getMatchingUsers");
     }
 }
