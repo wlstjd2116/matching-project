@@ -16,7 +16,7 @@ public class ChattController {
 
         //VO에서 값 가져와서
         String userName = socketVO.getUserName();
-        String msg = socketVO.getMsg();
+        String msg = socketVO.getContent();
         // 생성자로 반환 값 생성
         SocketVO result = new SocketVO(userName, msg);
 

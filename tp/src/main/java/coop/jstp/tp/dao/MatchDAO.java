@@ -1,9 +1,6 @@
 package coop.jstp.tp.dao;
 
-import coop.jstp.tp.vo.MatchStartDTO;
-import coop.jstp.tp.vo.MatchingDTO;
-import coop.jstp.tp.vo.SummonerDTO;
-import coop.jstp.tp.vo.TestDTO;
+import coop.jstp.tp.vo.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -30,4 +27,9 @@ public interface MatchDAO {
 
     public List<HashMap<?,?>> getMatchingUsers();
 
+    public void saveUserList(MatchedUsersDTO dto);
+
+    public List<MatchedUsersDTO> callSavedUserList();
+
+    public void matchingComplete(int matchingNumber);
 }

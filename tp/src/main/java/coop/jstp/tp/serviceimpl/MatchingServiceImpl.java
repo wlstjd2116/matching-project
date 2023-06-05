@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import coop.jstp.tp.dao.MatchDAO;
 import coop.jstp.tp.service.MatchingService;
 import coop.jstp.tp.vo.MatchStartDTO;
+import coop.jstp.tp.vo.MatchedUsersDTO;
 import coop.jstp.tp.vo.MatchingDTO;
 import coop.jstp.tp.vo.TestDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -61,6 +63,7 @@ public class MatchingServiceImpl implements MatchingService {
     // 매칭 중단
     @Override
     public void matchingEnd(int userNum) {
+        log.info("매칭 중단된 사람 : "+userNum);
         matchDAO.matchingEnd(userNum);
     }
 
@@ -101,5 +104,71 @@ public class MatchingServiceImpl implements MatchingService {
     @Override
     public List<HashMap<?, ?>> getMatchedUserInfo() {
         return matchDAO.getMatchingUsers();
+    }
+
+    @Override
+    public void saveUserList(MatchedUsersDTO dto) {
+        matchDAO.saveUserList(dto);
+    }
+
+    @Override
+    public List<MatchedUsersDTO> callSavedUserList() {
+        return matchDAO.callSavedUserList();
+    }
+
+    @Override
+    public List<?> matching(MatchStartDTO mDto) {
+        List<HashMap<?, ?>> list = getMatchedUserInfo();
+        log.info(list.toString());
+        log.info(mDto.toString());
+        var matchflag = false;
+        // 반환될 유저 names
+        List<String> summonerNames = new ArrayList<>();
+
+        for(int i=0; i<list.size(); i++){
+            if((int)list.get(i).get("MATCHING_TIER") == mDto.getMatchingTier()){
+                log.info("매칭 중인 다른 사용자가 있습니다.");
+                List<MatchingDTO> summonerList = matchedUser();
+
+                //매칭된 두 사람을 매칭 DB에서 제외
+                for (MatchingDTO matchingDTO : summonerList) {
+                    TestDTO summonerName = getSummonerName(matchingDTO.getU_NUM());
+                    TestDTO summonerName2 = getSummonerName((mDto.getUserNum()));
+
+                    // front로 반환 될 List
+                    summonerNames.add(summonerName.getSummoner_Name());
+                    summonerNames.add(summonerName2.getSummoner_Name());
+                    matchingEnd(matchingDTO.getU_NUM());
+                }
+                log.info("매칭 완료되었습니다.");
+
+                // dto 에 인자 값을 지정 후 생성자 생성
+                MatchedUsersDTO dto = new MatchedUsersDTO();
+                dto.setUser2(summonerList.get(0).getU_NUM());
+                dto.setUser1(mDto.getUserNum());
+
+                // 매칭된 유저를 DB에 저장
+                saveUserList(dto);
+
+                // 매칭 DB에 올려진 user 삭제
+                matchingEnd(summonerList.get(0).getU_NUM());
+                matchingEnd(mDto.getUserNum());
+
+                matchflag = true;
+            }
+        }
+
+        if(!matchflag){
+            // 매칭 등록
+            log.info("Matching start user : "+ mDto.getUserNum());
+            matchingStart(mDto);
+        }
+
+        return summonerNames;
+    }
+
+    @Override
+    public void matchingComplete(int matchingNumber) {
+        matchDAO.matchingComplete(matchingNumber);
     }
 }

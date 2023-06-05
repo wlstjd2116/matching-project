@@ -42,4 +42,19 @@
         FROM TB_MATCH
         ORDER BY M_NUM ASC;
     </select>
+
+    <insert id="saveUserList" parameterType="list">
+        INSERT INTO TB_MATCH_USER_TABLE (user1, user2) VALUES (#{user1}, #{user2});
+    </insert>
+
+    <select id="callSavedUserList" resultType="coop.jstp.tp.vo.MatchedUsersDTO">
+        SELECT *
+        FROM TB_MATCH_USER_TABLE
+    </select>
+
+    <delete id="matchingComplete" parameterType="int">
+        DELETE
+        FROM TB_MATCH_USER_TABLE
+        WHERE M_NUM = #{matchingNumber}
+    </delete>
 </mapper>

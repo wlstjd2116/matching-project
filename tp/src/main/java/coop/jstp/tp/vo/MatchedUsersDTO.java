@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class SocketVO {
-    private String userName;
-    private String content;
+public class MatchedUsersDTO {
+    private int m_num;
+    private int user1;
+    private int user2;
 }

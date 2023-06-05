@@ -1,9 +1,6 @@
 package coop.jstp.tp.dao;
 
-import coop.jstp.tp.vo.MatchStartDTO;
-import coop.jstp.tp.vo.MatchingDTO;
-import coop.jstp.tp.vo.SummonerDTO;
-import coop.jstp.tp.vo.TestDTO;
+import coop.jstp.tp.vo.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,5 +42,20 @@ public class MatchDAOImpl implements MatchDAO{
     @Override
     public List<HashMap<?, ?>> getMatchingUsers(){
         return sqlSession.selectList("matchMapper.getMatchingUsers");
+    }
+
+    @Override
+    public void saveUserList(MatchedUsersDTO dto) {
+        sqlSession.insert("matchMapper.saveUserList", dto);
+    }
+
+    @Override
+    public List<MatchedUsersDTO> callSavedUserList() {
+        return sqlSession.selectList("matchMapper.callSavedUserList");
+    }
+
+    @Override
+    public void matchingComplete(int matchingNumber) {
+        sqlSession.delete("matchMapper.matchingComplete", matchingNumber);
     }
 }
