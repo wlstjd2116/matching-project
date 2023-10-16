@@ -1,31 +1,18 @@
 package coop.jstp.tp.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import coop.jstp.tp.dao.MatchDAO;
-import coop.jstp.tp.dao.MatchDAOImpl;
 import coop.jstp.tp.service.MatchingService;
 import coop.jstp.tp.service.MemberService;
 import coop.jstp.tp.vo.*;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.swing.plaf.synth.SynthTreeUI;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -45,6 +32,7 @@ public class MainController {
 
         //매칭 중인 두 유저를 매칭
         List<?> summonerNames = matchingService.matching(mDto);
+        matchingService.setSummonerNames(summonerNames);
 
         HttpHeaders header = new HttpHeaders();
         header.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
@@ -53,13 +41,16 @@ public class MainController {
     }
 
     @GetMapping("/api/call-matching")
-    public ResponseEntity<List<MatchedUsersDTO>> callUserData(){
+    public ResponseEntity<Map<String, List<?>>> callUserData(){
+        Map<String, List<?>> matchedUsersList = new HashMap<>();
         List<MatchedUsersDTO> userList = matchingService.callSavedUserList();
-
+        List<?> summonerNames = matchingService.getSummonerNames();
+        //log.info("msg, summonerNames : "+summonerNames.toString());
+        matchedUsersList.put("userList", userList);
+        matchedUsersList.put("userNameList", summonerNames);
         HttpHeaders header = new HttpHeaders();
         header.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
-        log.info(userList.toString());
-        return new ResponseEntity<>(userList, header, HttpStatus.OK);
+        return new ResponseEntity<>(matchedUsersList, header, HttpStatus.OK);
     }
 
     // 매칭 종료 api
@@ -68,6 +59,7 @@ public class MainController {
         matchingService.matchingEnd(userNum);
     }
 
+    // 매칭 완료, 매칭된 대상들 DB에 저장
     @RequestMapping("/api/match-complete")
     public void matchingComplete(@RequestParam int matchingNumber){
         log.info("complete"+String.valueOf(matchingNumber));

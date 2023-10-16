@@ -17,40 +17,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Component
 public class SocketHandler extends TextWebSocketHandler {
-//    HashMap<String, WebSocketSession> sessionMap = new HashMap<>(); //웹소켓 세션을 담아둘 맵
-//
-//    @Override
-//    public void handleTextMessage(WebSocketSession session, TextMessage message) {
-//        //메시지 발송
-//        String msg = message.getPayload();
-//        for(String key : sessionMap.keySet()) {
-//            WebSocketSession wss = sessionMap.get(key);
-//            try {
-//                wss.sendMessage(new TextMessage(msg));
-//            }catch(Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-//        //소켓 연결
-//        super.afterConnectionEstablished(session);
-//        sessionMap.put(session.getId(), session);
-//    }
-//
-//    @Override
-//    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-//        //소켓 종료
-//        sessionMap.remove(session.getId());
-//        super.afterConnectionClosed(session, status);
-//    }
 
     HashMap<String, WebSocketSession> sessionMap = new HashMap<>(); //웹소켓 세션을 담아둘 맵
     List<HashMap<String, Object>> rls = new ArrayList<>(); //웹소켓 세션을 담아둘 리스트 ---roomListSessions
-
-
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) {

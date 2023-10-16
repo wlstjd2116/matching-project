@@ -50,9 +50,7 @@ public class MemberController {
     public ResponseEntity<?> idDupChk(@RequestParam String id){
 
         TestDTO dto = new TestDTO();
-
         dto.setId(id);
-
         ResponseEntity<?> result = memberService.idDupChk(dto);
 
         return result;
@@ -96,7 +94,7 @@ public class MemberController {
         // 티어 정보
         HashMap<?, ?> ContainTierInfoHashMap = (HashMap) Objects.requireNonNull(respon.getBody()).get(0);
 
-        // 솔로랭크가 아니라면
+        // 솔로랭크가 아니라면 솔로랭크 받아오기
         if(!ContainTierInfoHashMap.get("queueType").equals("RANKED_SOLO_5x5")){
             ContainTierInfoHashMap = (HashMap) Objects.requireNonNull(respon.getBody()).get(1);
         };
@@ -108,7 +106,7 @@ public class MemberController {
         // 티어를 String 형식으로 반환
         HashMap<String, Object> hashTier = new HashMap<>();
         String strTier = ContainTierInfoHashMap.get("tier").toString() + ContainTierInfoHashMap.get("rank").toString();
-        // 매칭용 티어
+        // 매칭할 때 사용되는 티어별 수
         int matchingTier = matchingService.tierList(strTier);
         hashTier.put("tier",ContainTierInfoHashMap.get("tier").toString());
         hashTier.put("rank", ContainTierInfoHashMap.get("rank").toString());

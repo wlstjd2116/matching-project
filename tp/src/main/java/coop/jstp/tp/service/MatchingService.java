@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface MatchingService {
 
@@ -41,4 +42,8 @@ public interface MatchingService {
     public List<?> matching(MatchStartDTO dto);
 
     public void matchingComplete(int matchingNumber);
+
+    public void setSummonerNames(List<?> summonerNames);
+
+    public List<?> getSummonerNames();
 }

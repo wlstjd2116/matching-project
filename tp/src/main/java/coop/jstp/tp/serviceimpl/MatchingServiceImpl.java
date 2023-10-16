@@ -21,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service("service")
@@ -31,6 +32,7 @@ public class MatchingServiceImpl implements MatchingService {
 
     @Autowired
     private MatchDAO matchDAO;
+    private List<?> summonerNames;
 
     @Override
     public ResponseEntity getUserInfo(String userName) throws JsonProcessingException {
@@ -170,5 +172,15 @@ public class MatchingServiceImpl implements MatchingService {
     @Override
     public void matchingComplete(int matchingNumber) {
         matchDAO.matchingComplete(matchingNumber);
+    }
+
+    @Override
+    public void setSummonerNames(List<?> summonerNames) {
+        this.summonerNames = summonerNames;
+    }
+
+    @Override
+    public List<?> getSummonerNames() {
+        return this.summonerNames;
     }
 }
